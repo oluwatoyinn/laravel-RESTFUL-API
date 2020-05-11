@@ -18,7 +18,7 @@ class AmbassadorController extends BaseController
     public function index()
     {
         //get ambassador
-        $ambassadors = Ambassador::paginate(20);
+        $ambassadors = Ambassador::paginate(30);
         //return number of ambassador asa aresource
         return $this->sendResponse(AmbassadorResource::collection($ambassadors)); 
     }
@@ -96,12 +96,12 @@ class AmbassadorController extends BaseController
     {
         //
         $ambassador =Ambassador::findOrFail($id);
-        $ambassador->name = $request->get('name');
-        $ambassador->address = $request->get('address');
-        $ambassador->email = $request->get('email');
-        $ambassador->phone_number = $request->get('phone_number');
-        $ambassador->guarantor = $request->get('guarantor');
-        $ambassador->location = $request->get('location');
+        $ambassador->name = $request->name;
+        $ambassador->address = $request->address;
+        $ambassador->email = $request->email;
+        $ambassador->phone_number = $request->phone_number;
+        $ambassador->guarantor = $request->guarantor;
+        $ambassador->location = $request->location;
         $ambassador->save();
         
         return response()->json($ambassador);
@@ -118,8 +118,9 @@ class AmbassadorController extends BaseController
     {
         
         $ambassador = Ambassador::findOrFail($id );
-         if($ambassador->delete()) {
-                return $this->sendResponse(new AmbassadorResource($ambassador));
+         if($ambassador) {
+            $ambassador->delete();
+            return $this->deleteResponse(new AmbassadorResource($ambassador));
          } 
     }
 }

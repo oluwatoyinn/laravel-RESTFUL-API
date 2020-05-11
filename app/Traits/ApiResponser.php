@@ -29,6 +29,18 @@ public function sendResponse($result, $message="Successfully Processed",$code=20
 return response()->json($response, $code);
 }
 
+public function deleteResponse($result, $message="Succesfully Removed", $code=200)
+{
+    $response =[
+        'success' =>true,
+        'status'=>$code,
+        'message'=>$message,
+        'data'=>$result
+    ];
+    return response()->json($response, $code);
+}
+
+
 
 public function sendError($error, $errorMessages = [], $code = 404)
 {
