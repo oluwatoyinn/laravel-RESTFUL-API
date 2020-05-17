@@ -17,10 +17,9 @@ class AmbassadorController extends BaseController
      */
     public function index()
     {
-        //get ambassador
-        $ambassadors = Ambassador::paginate(30);
-        //return number of ambassador asa aresource
-        return $this->sendResponse(AmbassadorResource::collection($ambassadors)); 
+      
+        $ambassadors =Ambassador::latest()->get();
+        return $this->sendResponse(AmbassadorResource::collection($ambassadors));
     }
 
     /**
@@ -42,21 +41,33 @@ class AmbassadorController extends BaseController
     public function store(Request $request)
     {
         
-        $ambassador = $request->isMethod('put') ? Ambassador::findOrFail
-        ($request->ambassador_id) : new Ambassador;
-      
+        // $ambassador = $request->isMethod('put') ? Ambassador::findOrFail
+        // ($request->ambassador_id) : new Ambassador;
+         //
+        $rules = [
+            'name'=>'required',
+            'address'=>'required',
+            'email'=>'required',
+            'phoneNumber'=>'required|numeric',
+            'guarantor'=>'required',
+            'location'=>'required'
+        ];
+
+        $this->validate($request,$rules);
+        
+        $ambassador = new Ambassador;
 
         $ambassador->id = $request->input('ambassador_id');
         $ambassador->name = $request->input('name');
         $ambassador->address = $request->input('address');
         $ambassador->email = $request->input('email');
-        $ambassador->phone_number = $request->input('phone_number');
+        $ambassador->phone_number = $request->input('phoneNumber');
         $ambassador->guarantor = $request->input('guarantor');
         $ambassador->location = $request->input('location');
 
-        if($ambassador->save()){
-            return $this->sendResponse(new AmbassadorResource($ambassador));
-        }
+        $ambassador->save();
+
+        return $this->sendResponse(new AmbassadorResource($ambassador));
        
     }
 
@@ -69,8 +80,13 @@ class AmbassadorController extends BaseController
     public function show($id)
     {
         //GET A SINGLE AMBASSADOR
-        $ambassador = Ambassador::findOrFail($id);
+        $ambassador = Ambassador::find($id);
          //RETURN A SINGLE AMBASSADOR AS A RESOURCE
+         if(is_null($ambassador)){ 
+             return response()->json([
+                 'message'=>'Ambassador Not Found'
+            ],404);
+         }
          return $this->sendResponse(new AmbassadorResource($ambassador));
     }
 
@@ -95,16 +111,36 @@ class AmbassadorController extends BaseController
     public function update(Request $request, $id)
     {
         //
-        $ambassador =Ambassador::findOrFail($id);
+        
+        $ambassador = Ambassador::findOrFail($id);
         $ambassador->name = $request->name;
         $ambassador->address = $request->address;
         $ambassador->email = $request->email;
-        $ambassador->phone_number = $request->phone_number;
+        $ambassador->phone_number = $request->phoneNumber;
         $ambassador->guarantor = $request->guarantor;
         $ambassador->location = $request->location;
-        $ambassador->save();
+        $ambassador->update();
         
-        return response()->json($ambassador);
+        return response()->json([
+            'success'=>true,
+            'message'=>"Successfully Updated",
+            'data'=>$ambassador
+        ],200);
+
+        // $ambassador = Ambassador::findOrFail($id)->update([
+        //     "name" => $request->name,
+        //     "address" => $request->address,
+        //     "email" => $request->email,
+        //     "phone_number" => $request->phone_number,
+        //    " guarantor" => $request->guarantor,
+        //     "location" => $request->location
+        // ]);
+       
+        // return response()->json([
+        //     'success'=>true,
+        //    'message'=>"Successfully Updated",
+        //    'data'=>$ambassador   
+        // ],200);
 
     }
 

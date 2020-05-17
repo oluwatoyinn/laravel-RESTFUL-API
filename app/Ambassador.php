@@ -9,11 +9,7 @@ class Ambassador extends Model
 {
     //
 
-
-
-    // public function ambassador(){
-
-    //     return $this->belongsTo(Ambassador::class);
-
-    // }
+    public function ambassador(){
+        return $this->belongsTo(Ambassador::class);
+    }
 }

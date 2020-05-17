@@ -18,26 +18,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::apiResource('ambassadors','AmbassadorController');
 
 
 
 
+//Update ambassador
+// Route::put('ambassadors/{id}','AmbassadorController@update');
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+// Route::apiResource('ambassadors','AmbassadorController',['except'=>['update']]);
 
 
 // //list ambassador
@@ -47,9 +40,28 @@ Route::apiResource('ambassadors','AmbassadorController');
 // //create new ambassador
 // Route::post('ambassador','AmbassadorController@store');
 // //Update ambassadro
-// Route::put('ambassador/{id}','AmbassadorController@store');
+// Route::put('ambassador/{id}','AmbassadorController@update');
 // //Delete ambassador
 // Route::delete('ambassador/{id}','AmbassadorController@destroy');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
