@@ -58,7 +58,7 @@ class AmbassadorController extends BaseController
         
         $ambassador = new Ambassador;
 
-        $ambassador->id = $request->input('ambassador_id');
+        // $ambassador->id = $request->input('ambassador_id');
         $ambassador->name = $request->input('name');
         $ambassador->address = $request->input('address');
         $ambassador->email = $request->input('email');
