@@ -19,6 +19,7 @@ class AmbassadorController extends BaseController
     {
       
         $ambassadors =Ambassador::latest()->get();
+        // $ambassadors =Ambassador::paginate(10);
         return $this->sendResponse(AmbassadorResource::collection($ambassadors));
     }
 
@@ -47,7 +48,7 @@ class AmbassadorController extends BaseController
         $rules = [
             'name'=>'required',
             'address'=>'required',
-            'email'=>'required',
+            'email'=>'email|required|unique:users',
             'phoneNumber'=>'required|numeric',
             'guarantor'=>'required',
             'location'=>'required'
