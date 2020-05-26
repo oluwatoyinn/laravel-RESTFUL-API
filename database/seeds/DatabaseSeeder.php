@@ -11,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(AmbassadorTableSeeder::class);
+         $this->call([
+             AmbassadorTableSeeder::class,
+             AmbassadorGuarantorSeeder::class
+             ]);
+
     }
 }

@@ -9,7 +9,11 @@ class Ambassador extends Model
 {
     //
 
-    public function ambassador(){
-        return $this->belongsTo(Ambassador::class);
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function images(){
+        return $this->hasMany(AmbassadorGuarantor::class);
     }
 }

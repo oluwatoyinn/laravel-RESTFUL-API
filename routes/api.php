@@ -23,6 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     
 // });
 Route::apiResource('ambassadors','AmbassadorController');
+Route::apiResource('guarantors', 'AmbassadorGuarantorController');
 
 
 

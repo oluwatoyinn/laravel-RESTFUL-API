@@ -112,7 +112,7 @@ class AmbassadorController extends BaseController
     public function update(Request $request, $id)
     {
         //
-        
+
         $ambassador = Ambassador::findOrFail($id);
         $ambassador->name = $request->name;
         $ambassador->address = $request->address;
