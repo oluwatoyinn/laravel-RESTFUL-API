@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AmbassadorGuarantor;
 use Illuminate\Http\Request;
+use App\Http\Requests\GuarantorRequest;
 
 class AmbassadorGuarantorController extends BaseController
 {
@@ -15,8 +16,8 @@ class AmbassadorGuarantorController extends BaseController
     public function index()
     {
         //
-        $ambassador_guarantors = AmbassadorGuarantor::latest()->get();
-        return $ambassador_guarantors;
+        $guarantors = AmbassadorGuarantor::latest()->get();
+        return $guarantors;
 
     }
 
@@ -52,16 +53,16 @@ class AmbassadorGuarantorController extends BaseController
         ];
         $this->validate($request,$rules);
 
-        $ambassador_guarantors = new AmbassadorGuarantor;
+        $guarantor = new AmbassadorGuarantor;
 
-        $ambassador_guarantors->name =$request->name;
-        $ambassador_guarantors->gender =$request->gender;
-        $ambassador_guarantors->age =$request->age;
-        $ambassador_guarantors->phone_number =$request->phone_number;
-        $ambassador_guarantors->occupation =$request->occupation;
-        $ambassador_guarantors->office_address =$request->office_address;
-        $ambassador_guarantors->home_address =$request->home_address; 
-        $ambassador_guarantors->ambassador_id =$request->ambassador_id;
+        $guarantor->name =$request->name;
+        $guarantor->gender =$request->gender;
+        $guarantor->age =$request->age;
+        $guarantor->phone_number =$request->phone_number;
+        $guarantor->occupation =$request->occupation;
+        $guarantor->office_address =$request->office_address;
+        $guarantor->home_address =$request->home_address; 
+        $guarantor->ambassador_id =$request->ambassador_id;
 
 
         if($request->hasFile('passport'))
@@ -71,12 +72,11 @@ class AmbassadorGuarantorController extends BaseController
             $filesize =$image->getSize();
             $filextension= $image->getClientOriginalExtension();
             $save_image = time().".".$filextension;
-
         }
 
-        $ambassador_guarantors->passport = $save_image;
+        $guarantor->passport = $save_image;
 
-        $ambassador_guarantors->save();
+        $guarantor->save();
 
         $image->move('guarantor_image/', $save_image);
 
@@ -104,7 +104,7 @@ class AmbassadorGuarantorController extends BaseController
 
         // return redirect('ambassador_guarantors')->with('success', 'Data Added successfully.');
 
-        return $this->sendResponse($ambassador_guarantors);
+        return $this->sendResponse($guarantor);
 
     }
 
@@ -137,39 +137,40 @@ class AmbassadorGuarantorController extends BaseController
      * @param  \App\AmbassadorGuarantor  $ambassadorGuarantor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AmbassadorGuarantor $ambassadorGuarantor)
+    public function update(GuarantorRequest $request, $id)
     {
         //
-        $rules = [
-            'name'=>'required',
-            'gender'=>'required',
-            'passport'=>'required|image|mimes:jpeg,png,git,svg|max:2048',
-            'age'=>'required|numeric',
-            'phone_number'=>'required',
-            'occupation'=>'required',
-            'office_address'=>'required',
-            'ambassador_id'=>'required',
-            'home_address'=>'required'
-        ];
-        $this->validate($request,$rules);
-
+        $ambassadorGuarantor = AmbassadorGuarantor::findOrFail($id);
         $ambassadorGuarantor->name=$request->name;
         $ambassadorGuarantor->age=$request->age;
-        $ambassadorGuarantor->passport=$request->passport;
         $ambassadorGuarantor->phone_number=$request->phone_number;
         $ambassadorGuarantor->gender=$request->gender;
         $ambassadorGuarantor->occupation=$request->occupation;
         $ambassadorGuarantor->office_address=$request->office_address;
         $ambassadorGuarantor->home_address=$request->home_address;
         $ambassadorGuarantor->ambassador_id=$request->ambassador_id;
+        // $ambassadorGuarantor->passport=$request->passport;
+
+
+        if($request->hasFile('passport'))
+        {
+            $image =$request->file('passport');
+            $filename =$image->getClientOriginalName();
+            $filesize =$image->getSize();
+            $filextension= $image->getClientOriginalExtension();
+            $save_image = time().".".$filextension;
+            
+        }
 
         $ambassadorGuarantor->update();
+        
+        // $ambassadorGuarantor =AmbassadorGuarantor::findOrFail($id);
+        // $ambassadorGuarantor->updateOrCreate($request->all());
 
         return response()->json([
             'success'=>true,
             'message'=>'Guarantor Successfully Updated',
             'data'=>$ambassadorGuarantor
-
         ],200);
     }
 
@@ -190,9 +191,9 @@ class AmbassadorGuarantorController extends BaseController
 
         $ambassador = AmbassadorGuarantor::findOrFail($id);
 
-        if($ambassador->ambassador_guarantor)
+        if($ambassador->guarantor)
         {
-            unlink(public_path('guarantor_image') . $ambassadorGuarantor->ambassador_guarantor->filename);
+            unlink(public_path('guarantor_image') . $ambassadorGuarantor->guarantor->filename);
         }
 
         $ambassador->delete();
