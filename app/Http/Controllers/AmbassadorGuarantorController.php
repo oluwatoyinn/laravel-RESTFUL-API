@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AmbassadorGuarantor;
 use Illuminate\Http\Request;
 use App\Http\Requests\GuarantorRequest;
+use App\Http\Resources\AmbassadorGuarrantorResource;
 
 class AmbassadorGuarantorController extends BaseController
 {
@@ -17,7 +18,7 @@ class AmbassadorGuarantorController extends BaseController
     {
         //
         $guarantors = AmbassadorGuarantor::latest()->get();
-        return $guarantors;
+        return $this->sendResponse(AmbassadorGuarrantorResource::collection($guarantors));
 
     }
 
@@ -104,7 +105,7 @@ class AmbassadorGuarantorController extends BaseController
 
         // return redirect('ambassador_guarantors')->with('success', 'Data Added successfully.');
 
-        return $this->sendResponse($guarantor);
+        return $this->sendResponse(AmbassadorGuarrantorResource::collection($guarantor));
 
     }
 
@@ -163,10 +164,7 @@ class AmbassadorGuarantorController extends BaseController
         }
 
         $ambassadorGuarantor->update();
-        
-        // $ambassadorGuarantor =AmbassadorGuarantor::findOrFail($id);
-        // $ambassadorGuarantor->updateOrCreate($request->all());
-
+    
         return response()->json([
             'success'=>true,
             'message'=>'Guarantor Successfully Updated',

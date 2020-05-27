@@ -23,7 +23,9 @@ class AmbassadorGuarrantorResource extends JsonResource
             'officeAdress'=>$this->office_address,
             'homeAddress'=>$this->home_address,
             'occupation'=>$this->occupation,
-            'phoneNumber'
+            'phoneNumber'=>$this->phone_number,
+            'ambassador_id'=>$this->ambassador_id,
+            'age'=>$this->age
         ];
     }
 }
