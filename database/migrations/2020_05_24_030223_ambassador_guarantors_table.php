@@ -13,8 +13,8 @@ class AmbassadorGuarantorsTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('ambassador_guarantors');
-        Schema::create('guarantors', function (Blueprint $table) {
+        // Schema::dropIfExists('ambassador_guarantors');
+        Schema::create('ambassador_guarantors', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');

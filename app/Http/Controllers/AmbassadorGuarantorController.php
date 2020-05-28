@@ -54,16 +54,16 @@ class AmbassadorGuarantorController extends BaseController
         ];
         $this->validate($request,$rules);
 
-        $guarantor = new AmbassadorGuarantor;
+        $ambassador_guarantor = new AmbassadorGuarantor;
 
-        $guarantor->name =$request->name;
-        $guarantor->gender =$request->gender;
-        $guarantor->age =$request->age;
-        $guarantor->phone_number =$request->phone_number;
-        $guarantor->occupation =$request->occupation;
-        $guarantor->office_address =$request->office_address;
-        $guarantor->home_address =$request->home_address; 
-        $guarantor->ambassador_id =$request->ambassador_id;
+        $ambassador_guarantor->name =$request->name;
+        $ambassador_guarantor->gender =$request->gender;
+        $ambassador_guarantor->age =$request->age;
+        $ambassador_guarantor->phone_number =$request->phone_number;
+        $ambassador_guarantor->occupation =$request->occupation;
+        $ambassador_guarantor->office_address =$request->office_address;
+        $ambassador_guarantor->home_address =$request->home_address; 
+        $ambassador_guarantor->ambassador_id =$request->ambassador_id;
 
 
         if($request->hasFile('passport'))
@@ -75,9 +75,9 @@ class AmbassadorGuarantorController extends BaseController
             $save_image = time().".".$filextension;
         }
 
-        $guarantor->passport = $save_image;
+        $ambassador_guarantor->passport = $save_image;
 
-        $guarantor->save();
+        $ambassador_guarantor->save();
 
         $image->move('guarantor_image/', $save_image);
 
@@ -105,7 +105,7 @@ class AmbassadorGuarantorController extends BaseController
 
         // return redirect('ambassador_guarantors')->with('success', 'Data Added successfully.');
 
-        return $this->sendResponse(AmbassadorGuarrantorResource::collection($guarantor));
+        return $this->sendResponse(new AmbassadorGuarrantorResource($ambassador_guarantor));
 
     }
 
