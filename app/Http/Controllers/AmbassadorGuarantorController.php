@@ -17,8 +17,8 @@ class AmbassadorGuarantorController extends BaseController
     public function index()
     {
         //
-        $guarantors = AmbassadorGuarantor::latest()->get();
-        return $this->sendResponse(AmbassadorGuarrantorResource::collection($guarantors));
+        $ambassador_guarantors = AmbassadorGuarantor::latest()->get();
+        return $this->sendResponse(AmbassadorGuarrantorResource::collection($ambassador_guarantors));
 
     }
 
