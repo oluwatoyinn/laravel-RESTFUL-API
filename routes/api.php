@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+
 // Route::group(['middleware' =>'auth:api'], function(){
     
 // });
@@ -26,7 +27,11 @@ Route::apiResource('ambassadors','AmbassadorController');
 Route::apiResource('guarantors', 'AmbassadorGuarantorController');
 
 
-
+Route::post('register', 'JWTAuthController@register');
+Route::post('login', 'JWTAuthController@login');
+Route::post('logout', 'JWTAuthController@logout');
+Route::post('refresh', 'JWTAuthController@refresh');
+Route::get('profile', 'JWTAuthController@profile');
 
 
 

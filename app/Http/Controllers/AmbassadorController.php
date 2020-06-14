@@ -15,6 +15,10 @@ class AmbassadorController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api');
+    // }
     public function index()
     {
       
