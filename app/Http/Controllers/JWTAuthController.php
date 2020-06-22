@@ -29,8 +29,8 @@ class JWTAuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
-            'email' => 'required|email|unique:users|max:50',
-            'password' => 'required|confirmed|string|min:6',
+            'email' => 'required|email|unique:users|max:60',
+            'password' => 'required|confirmed|string|min:5',
         ]);
 
         $user = User::create(array_merge(
@@ -54,7 +54,7 @@ class JWTAuthController extends Controller
     {
     	$validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:5',
         ]);
 
         if ($validator->fails()) {
@@ -87,7 +87,7 @@ class JWTAuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Logged Out Successfully ']);
     }
 
     /**
